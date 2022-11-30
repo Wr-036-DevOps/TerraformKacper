@@ -29,7 +29,6 @@ resource "aws_instance" "app_server" {
                 apt update -y
                 git clone https://github.com/Wr-036-DevOps/DiscordKacper
                 apt install python3-pip -y
-                
                 cd DiscordKacper
                 pip install -r requirements.txt 
                 echo 'TOKEN=MTAzNTU0MzE4NTM4MTkzMzA5Ng.GtDUgy.D1empBmeptXY420tDCqch8RfAtVZHF-hjmxRlw' > .env

@@ -17,7 +17,7 @@ resource "aws_instance" "app_server" {
    	vpc_security_group_ids       = ["sg-09f5a92afde0ec14b"]		     
 	tags = {
         ita_group = "Wr-36"
-        Name="terraform"
+        Name="terraform2"
         } 
 	volume_tags = {
         ita_group = "Wr-36"
@@ -30,9 +30,10 @@ resource "aws_instance" "app_server" {
                 git clone https://github.com/Wr-036-DevOps/DiscordKacper
                 apt install python3-pip -y
                 cd DiscordKacper
-                pip install -r requirements.txt
+                pip install -r requirements.txt 
+                echo 'TOKEN=BotTokenHere' > .env
                 apt install awscli -y
-                
+                python3 app.py
                 EOF
                 
 }

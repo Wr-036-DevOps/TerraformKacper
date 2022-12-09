@@ -15,6 +15,7 @@ terraform {
 #   secret_key = ""
 # }
 
+
 resource "aws_iam_role" "test_role" {
   name = "Training-test_role"
 permissions_boundary = "arn:aws:iam::536460581283:policy/boundaries/CustomPowerUserBound" 
@@ -39,12 +40,12 @@ resource "aws_iam_role_policy_attachment" "SQSQueue-execution-policy" {
   role       = aws_iam_role.test_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
 }
-resource "aws_iam_instance_profile" "test_profile" { // ec2 need to have access to sqs 
+resource "aws_iam_instance_profile" "test_profile" {
   name = "test_profile"
   role = aws_iam_role.test_role.name
 }
 
-resource "aws_instance" "app_server" { 
+resource "aws_instance" "app_server" {
 
   ami                    = "ami-08c40ec9ead489470"
   instance_type          = "t2.micro"
@@ -66,13 +67,30 @@ iam_instance_profile = aws_iam_instance_profile.test_profile.name
                 git clone https://github.com/Wr-036-DevOps/DiscordKacper
                 apt install python3-pip -y
                 cd DiscordKacper
+                chmod +x apka.sh
+                cp -i apka.sh /bin/apka.sh
                 pip install -r requirements.txt 
                 echo 'TOKEN=${var.token}' > .env
-                chmod +x apka.sh
-                ./apka.sh
+                apt install awscli -y
+                EOF
+				sudo cat <<__EOF__>/etc/systemd/system/nodejs.service
+[Unit]
+Description=NodeJS App
+#Documentation=
+After=network.target
 
+[Service]
+RestartSec=10
+Restart=always
 
-EOF
+# Main process
+ExecStart=/usr/bin/node /server.js
+
+[Install]
+WantedBy=multi-user.target
+__EOF__
+sudo systemctl enable --now nodejs
+
 }
 
 

@@ -46,10 +46,11 @@ resource "aws_iam_instance_profile" "test_profile" { // ec2 need to have access 
 
 resource "aws_instance" "app_server" { 
 
-  ami                    = "ami-08c40ec9ead489470"
+  ami                    = "ami-0caef02b518350c8b"
   instance_type          = "t2.micro"
-  key_name               = "kacperterraform"
-  vpc_security_group_ids = ["sg-09f5a92afde0ec14b"]
+  key_name               = "FrankfurtKey"
+  vpc_security_group_ids = ["sg-04c151761c241c520"]
+  subnet_id="subnet-088a0df0e650d36fb"
   tags = {
     ita_group = "Wr-36"
     Name      = "terraform2"
